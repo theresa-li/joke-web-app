@@ -36,7 +36,7 @@ class App extends React.Component {
   render() {
     return (
       <div id="app-container">
-        <Joke joke={this.state.joke.joke}/>
+        <Joke joke={this.state.joke.joke} getJoke={this.getJoke}/>
       </div>
     );
   }

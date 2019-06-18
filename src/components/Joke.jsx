@@ -16,7 +16,7 @@ class Joke extends React.Component {
     return (
       <div id="joke-container" style={styles}>
         <div className="joke">{this.props.joke}</div>
-        <button>New joke!</button>
+        <button onClick={this.props.getJoke}>New joke!</button>
       </div>
     );
   }
