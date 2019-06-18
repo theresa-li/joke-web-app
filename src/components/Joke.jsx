@@ -1,5 +1,12 @@
 import React from 'react';
 
+const styles = {
+  alignItems: 'center',
+  display: 'flex',
+  flexDirection: 'column',
+  margin: '50px'
+}
+
 class Joke extends React.Component {
   constructor(props) {
     super(props);
@@ -7,7 +14,7 @@ class Joke extends React.Component {
 
   render() {
     return (
-      <div id="joke-container">
+      <div id="joke-container" style={styles}>
         <div className="joke">{this.props.joke}</div>
         <button>New joke!</button>
       </div>
