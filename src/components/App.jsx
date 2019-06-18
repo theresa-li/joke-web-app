@@ -24,7 +24,7 @@ class App extends React.Component {
     axios.get('/api/joke')
       .then((res) => {
         console.log('Joke: ', res.data.value);
-        res.data.value.joke.replace(/&quot;/g, '\\"');
+        res.data.value.joke = res.data.value.joke.replace(/&quot;/gi, '\"');
         self.setState({ joke: res.data.value });
       })
       .catch(err => {
