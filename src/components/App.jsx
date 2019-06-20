@@ -11,11 +11,13 @@ class App extends React.Component {
       joke: "This is a great joke!"
     }
 
+    this.jokeTimer;
+
     this.getJoke = this.getJoke.bind(this);
+    this.resetTimer = this.resetTimer.bind(this);
   }
 
   componentDidMount() {
-    const self = this;
     this.getJoke();
   }
 
@@ -26,11 +28,17 @@ class App extends React.Component {
         console.log('Joke: ', res.data.value);
         res.data.value.joke = res.data.value.joke.replace(/&quot;/gi, '\"');
         self.setState({ joke: res.data.value });
+        self.resetTimer();
       })
       .catch(err => {
-        console.log('Failed to get joke.', err);
+        console.log('Failed to get joke. ', err);
         this.getJoke();
       });
+  }
+
+  resetTimer() {
+    clearTimeout(this.jokeTimer);
+    this.jokeTimer = setTimeout(this.getJoke, 5000);
   }
 
   render() {
