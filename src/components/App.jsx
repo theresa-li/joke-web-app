@@ -8,13 +8,15 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      joke: "This is a great joke!"
+      joke: { joke: "This is a great joke!" },
+      usedJokes: []
     }
 
     this.jokeTimer;
 
     this.getJoke = this.getJoke.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
+    this.checkJoke = this.checkJoke.bind(this);
   }
 
   componentDidMount() {
@@ -25,10 +27,8 @@ class App extends React.Component {
     const self = this;
     axios.get('/api/joke')
       .then((res) => {
-        console.log('Joke: ', res.data.value);
-        res.data.value.joke = res.data.value.joke.replace(/&quot;/gi, '\"');
-        self.setState({ joke: res.data.value });
-        self.resetTimer();
+        console.log('Joke: ', res.data.value);        
+        this.checkJoke(res.data.value);
       })
       .catch(err => {
         console.log('Failed to get joke. ', err);
@@ -39,6 +39,18 @@ class App extends React.Component {
   resetTimer() {
     clearTimeout(this.jokeTimer);
     this.jokeTimer = setTimeout(this.getJoke, 5000);
+  }
+
+  checkJoke(data) {
+    if (this.state.usedJokes.includes(data.id)) {
+      console.log('This joke is old news. ');
+      this.getJoke();
+    } else {
+      data.joke = data.joke.replace(/&quot;/gi, '\"');
+      this.state.usedJokes.push(data.id);
+      this.setState({ joke: data });
+      this.resetTimer();
+    }
   }
 
   render() {
